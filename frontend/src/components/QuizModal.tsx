@@ -3,26 +3,28 @@ import { X } from 'lucide-react';
 import { Quiz } from '../types';
 
 interface QuizModalProps {
-  quiz: Quiz;
+  quiz: any;
   onClose: () => void;
   onComplete: (score: number) => void;
+  index2:any;
 }
 
-export function QuizModal({ quiz, onClose, onComplete }: QuizModalProps) {
+export function QuizModal({ quiz, onClose, onComplete ,index2}: QuizModalProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
+  console.log(index2);
 
   const handleAnswer = (selectedIndex: number) => {
     if (answered) return;
     
     setAnswered(true);
-    if (selectedIndex === quiz.questions[currentQuestion].correctAnswer) {
+    if (selectedIndex === quiz[index2].questions[currentQuestion].correctAnswer) {
       setScore(score + 1);
     }
 
     setTimeout(() => {
-      if (currentQuestion < quiz.questions.length - 1) {
+      if (currentQuestion < quiz[index2].questions.length - 1) {
         setCurrentQuestion(currentQuestion + 1);
         setAnswered(false);
       } else {
@@ -43,27 +45,27 @@ export function QuizModal({ quiz, onClose, onComplete }: QuizModalProps) {
         
         <div className="mb-6">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Question {currentQuestion + 1} of {quiz.questions.length}</span>
+            <span>Question {currentQuestion + 1} of {quiz[index2].questions.length}</span>
             <span>Score: {score}</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
             <div
               className="bg-blue-600 rounded-full h-2 transition-all"
-              style={{ width: `${((currentQuestion + 1) / quiz.questions.length) * 100}%` }}
+              style={{ width: `${((currentQuestion + 1) / quiz[index2].questions.length) * 100}%` }}
             />
           </div>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-xl mb-4">{quiz.questions[currentQuestion].text}</h3>
+          <h3 className="text-xl mb-4">{quiz[index2].questions[currentQuestion].text}</h3>
           <div className="space-y-3">
-            {quiz.questions[currentQuestion].options.map((option, index) => (
+            {quiz[index2].questions[currentQuestion].options.map((option:any, index:any) => (
               <button
                 key={index}
                 onClick={() => handleAnswer(index)}
                 className={`w-full p-4 text-left rounded-lg border transition-colors ${
                   answered
-                    ? index === quiz.questions[currentQuestion].correctAnswer
+                    ? index === quiz[index2].questions[currentQuestion].correctAnswer
                       ? 'bg-green-100 border-green-500'
                       : 'bg-red-100 border-red-500'
                     : 'hover:bg-gray-100 border-gray-200'

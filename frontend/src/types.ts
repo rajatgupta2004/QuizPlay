@@ -1,5 +1,6 @@
 export interface Video {
-  id: string;
+  index:number,
+  id: number;
   title: string;
   description: string;
   thumbnailUrl: string;
